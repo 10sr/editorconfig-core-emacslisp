@@ -1,7 +1,7 @@
 editorconfig-core-emacslisp
 ============================
 
-Editorconfig Core library written purely in Emacs lisp.
+EditorConfig Core library written purely in Emacs lisp.
 
 
 Run Test
