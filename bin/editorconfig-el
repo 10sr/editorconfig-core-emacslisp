@@ -1,7 +1,14 @@
 #!/bin/sh
-:;exec emacs -batch -Q -l "$0" -- "$@"
+:;test -n "$EMACS" || EMACS=emacs
+:;exec "$EMACS" -batch -Q -l "$0" -- "$@"
 
 (require 'cl)
+
+(when (getenv "EDITORCONFIG_CORE_LIBRARY_PATH")
+  (add-to-list 'load-path
+               (getenv "EDITORCONFIG_CORE_LIBRARY_PATH")))
+
+(require 'editorconfig-core)
 
 (defun editorconfig-bin-parse-args
     (argv &optional files confname version help-p version-p)
@@ -46,10 +53,13 @@ List returned will be looked like (FILES CONFNAME VERSION HELP-P VERSION-P)."
     ))
 
 (defun main (argv)
-  ;; (message "%S"
-  ;;          (editorconfig-bin-parse-args argv))
-  (message "key=value")
-  0)
+  (let* ((parsed (editorconfig-bin-parse-args argv))
+         (properties (editorconfig-core-get-properties (caar parsed)
+                                                       (cadr parsed))))
+    (message "%s=%s"
+             (car properties)
+             (cdr properties))
+    0))
 
 ;; car of command-line-args-left is "--"
 (kill-emacs (main (cdr command-line-args-left)))

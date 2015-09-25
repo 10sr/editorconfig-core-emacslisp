@@ -4,10 +4,3 @@
 # Packaging
 .cask
 
-#CMake
-CMakeCache.txt
-CMakefiles/
-CTestTestfile.cmake
-Makefile
-Testing/
-cmake_install.cmake
