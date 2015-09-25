@@ -46,8 +46,9 @@ List returned will be looked like (FILES CONFNAME VERSION HELP-P VERSION-P)."
     ))
 
 (defun main (argv)
-  (message "%S"
-           (editorconfig-bin-parse-args argv))
+  ;; (message "%S"
+  ;;          (editorconfig-bin-parse-args argv))
+  (message "key=value")
   0)
 
 ;; car of command-line-args-left is "--"
