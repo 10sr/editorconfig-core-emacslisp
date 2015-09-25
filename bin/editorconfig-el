@@ -1,0 +1,54 @@
+#!/bin/sh
+:;exec emacs -batch -Q -l "$0" -- "$@"
+
+(require 'cl)
+
+(defun editorconfig-bin-parse-args
+    (argv &optional files confname version help-p version-p)
+  "Parse arguments and return list.
+
+List returned will be looked like (FILES CONFNAME VERSION HELP-P VERSION-P)."
+  (cl-case (intern (car argv))
+    (-f
+     (editorconfig-bin-parse-args (cddr argv)
+                                  files
+                                  (cadr argv)
+                                  version
+                                  help-p
+                                  version-p))
+    (-b
+     (editorconfig-bin-parse-args (cddr argv)
+                                  files
+                                  confname
+                                  (cadr argv)
+                                  help-p
+                                  version-p))
+    ((-h --help)
+     (editorconfig-bin-parse-args (cdr argv)
+                                  files
+                                  confname
+                                  version
+                                  t
+                                  version-p))
+    ((-v --version)
+     (editorconfig-bin-parse-args (cdr argv)
+                                  files
+                                  confname
+                                  version
+                                  help-p
+                                  t))
+    (otherwise
+     (list argv
+           confname
+           version
+           help-p
+           version-p))
+    ))
+
+(defun main (argv)
+  (message "%S"
+           (editorconfig-bin-parse-args argv))
+  0)
+
+;; car of command-line-args-left is "--"
+(kill-emacs (main (cdr command-line-args-left)))
