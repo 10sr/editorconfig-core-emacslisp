@@ -5,8 +5,10 @@
 (require 'cl)
 
 (when (getenv "EDITORCONFIG_CORE_LIBRARY_PATH")
-  (add-to-list 'load-path
-               (getenv "EDITORCONFIG_CORE_LIBRARY_PATH")))
+  (setq load-path
+        (appnd (split-string (getenv "EDITORCONFIG_CORE_LIBRARY_PATH")
+                             ":")
+               load-path)))
 
 (require 'editorconfig-core)
 

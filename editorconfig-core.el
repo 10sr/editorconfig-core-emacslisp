@@ -1,3 +1,5 @@
+(require 'editorconfig-fnmatch)
+
 (defun editorconfig-core-get-properties (file &optional confname version)
   "Get EditorConfig properties for FILE.
 
