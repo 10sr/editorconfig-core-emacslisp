@@ -17,7 +17,9 @@ check: build check-ert tests/CMakeLists.txt lib/editorconfig-fnmatch.el
 	cd ${project_root}/tests && EMACS=${emacs} EDITORCONFIG_CORE_LIBRARY_PATH="${project_root}:${project_root}/lib" ctest .
 
 check-ert: $(tests_ert_el) lib/editorconfig-fnmatch.el
-	$(emacs) -batch -Q -L . -L lib/ --eval "(require 'ert)" $(tests_ert_el:%=-l "%") \
+	$(emacs) -batch -Q -L . -L lib/ \
+		--eval "(require 'ert) (setq debug-on-error t)" \
+		$(tests_ert_el:%=-l "%") \
 		-f ert-run-tests-batch-and-exit
 
 tests/CMakeLists.txt:
