@@ -36,8 +36,8 @@ If CONF does not exist return nil."
           (mtime (nth 5
                       (file-attributes conf))))
       (if (and cached
-               (= (editorconfig-core-handle-mtime cached)
-                  mtime))
+               (equal (editorconfig-core-handle-mtime cached)
+                      mtime))
           cached
         (let ((parsed (editorconfig-core-handle--parse-file conf)))
           (puthash conf
@@ -46,7 +46,6 @@ If CONF does not exist return nil."
                                                   :mtime mtime
                                                   :path conf)
                    editorconfig-core-handle--cache-hash))))))
-
 
 (defun editorconfig-core-handle-root-p (handle)
   "Return non-nil if HANDLE represent root EditorConfig file."
@@ -116,7 +115,7 @@ If CONF is not found return nil."
                                                           idx))))
                    (value (downcase (string-trim (substring line
                                                             (1+ idx)))))
-                  )
+                   )
               (if pattern
                   (setq props
                         `(,@props (,key . ,value)))
