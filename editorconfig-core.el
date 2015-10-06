@@ -5,7 +5,7 @@
 
 ;;; Code:
 
-(defun editorconfig-core--merge-properties (current &rest rest)
+(defun editorconfig-core--merge-properties (&optional current &rest rest)
   "Merge CURRENT and REST, which are alists of properties.
 
 Latter property alists take precedence. For examle, when called like
@@ -66,7 +66,14 @@ Pass arg CONFNAME to use config file other than \".editorconfig\"."
   (setq file (expand-file-name file))
   (setq confname (or confname
                      ".editorconfig"))
-  '(("key1" . "value1")
-    ("key2" . "value2")))
+  (apply 'editorconfig-core--merge-properties
+         (mapcar (lambda (arg)
+                   (apply 'editorconfig-core--merge-properties
+                          arg))
+                 (mapcar (lambda (handle)
+                           (editorconfig-core-handle-get-properties handle
+                                                                    file))
+                         (editorconfig-core-get-handles (file-name-directory file)
+                                                        confname)))))
 
 (provide 'editorconfig-core)
