@@ -3,22 +3,24 @@
 (require 'editorconfig-core-handle)
 
 
+;;; Code:
+
 (defun editorconfig-core--merge-properties (current &rest rest)
   "Merge CURRENT and REST, which are alists of properties.
 
 Latter property alists take precedence. For examle, when called like
 
-(editorconfig-core--merge-properties '((a . 1) (c . 1))
-                                     '((a . 2) (b . 2)))
+(editorconfig-core--merge-properties \'((a . 1) (c . 1))
+                                     \'((a . 2) (b . 2)))
 
 then the result will be
 
-'(
-  (a . 2) (b . 2) (c . 1)
+\'(
+  (a . 2) (c . 1) (b . 2)
   ) ."
   (if rest
-      (editorconfig-core--merge-properties (editorconfig-core--merge-two-properties current (car rest))
-                                           (cdr rest))
+      (apply 'editorconfig-core--merge-properties (editorconfig-core--merge-two-properties current (car rest))
+                                                  (cdr rest))
     current))
 
 (defun editorconfig-core--merge-two-properties (old new)
