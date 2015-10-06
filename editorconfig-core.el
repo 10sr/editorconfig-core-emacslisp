@@ -42,8 +42,18 @@ This function is non-destructive."
     ;; If OLD is nil return NEW as it is
     (copy-alist new)))
 
-(defun editorconfig-core-get-properties-from (file conf)
-  "Get EditorConfig properties for FILE from CONF.")
+(defun editorconfig-core-get-handlers (dir confname &optional result)
+  "Get list of EditorConfig handlers for DIR from CONFNAME."
+  (let ((handler (editorconfig-core-handle (concat (file-name-as-directory dir)
+                                                   confname)))
+        (parent (file-name-directory (directory-file-name dir))))
+    (if (string= parent
+                 dir)
+        (cons handler result)
+      (editorconfig-core-get-handlers parent
+                                      confname
+                                      (cons parent
+                                            result)))))
 
 ;;;###autoload
 (defun editorconfig-core-get-properties (file &optional confname version)
