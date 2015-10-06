@@ -31,9 +31,9 @@ $(lib_fnmatch)/editorconfig-fnmatch.el:
 	mkdir -p lib
 	git submodule update --init
 
-build: $(elc) $(lib_fnmatch)/editorconfig-fnmatch.el
+build: $(elc)
 
-$(elc): %.elc: %.el
+$(elc): %.elc: %.el $(lib_fnmatch)/editorconfig-fnmatch.el
 	$(emacs) -batch -Q -L $(project_root) -L $(lib_fnmatch) -f batch-byte-compile $<
 
 
