@@ -58,9 +58,24 @@ If CONF does not exist return nil."
 The list returned will be ordered by the lines they appear"
   (mapcar 'cdr
           (cl-remove-if-not (lambda (prop)
-                              (editorconfig-fnmatch-p file
-                                                      (car prop)))
+                              (editorconfig-core-handle--fnmatch-p file
+                                                                   (car prop)))
                             (editorconfig-core-handle-prop handle))))
+
+(defun editorconfig-core-handle--fnmatch-p (name pattern)
+  "Return non-nil if NAME match PATTERN.
+
+This function is a fnmatch with a few modification for EditorConfig usage."
+  (if (string-match-p "/" pattern)
+      (let ((pattern (replace-regexp-in-string "^/"
+                                               ""
+                                               pattern))
+            (dir (file-name-directory (expand-file-name name))))
+        (editorconfig-fnmatch-p name
+                                (concat dir
+                                        pattern)))
+    (editorconfig-fnmatch-p (file-name-nondirectory name)
+                            pattern)))
 
 (defun editorconfig-core-handle--parse-file (conf)
   "Parse EditorConfig file CONF and return cons of its top properties alist and
