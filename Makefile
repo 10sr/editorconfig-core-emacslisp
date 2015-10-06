@@ -32,7 +32,7 @@ lib/editorconfig-fnmatch.el:
 build: $(elc) lib/editorconfig-fnmatch.el
 
 $(elc): %.elc: %.el
-	$(emacs) -batch -Q -L lib/ -f batch-byte-compile $<
+	$(emacs) -batch -Q -L . -L lib/ -f batch-byte-compile $<
 
 
 clean:
