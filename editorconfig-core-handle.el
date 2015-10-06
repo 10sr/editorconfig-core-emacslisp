@@ -1,6 +1,8 @@
 (require 'editorconfig-fnmatch)
 
+;; For cl-defstruct
 (require 'cl-lib)
+;; For string-trim
 (require 'subr-x)
 
 
@@ -53,7 +55,8 @@ If CONF does not exist return nil."
                        (editorconfig-core-handle-top-prop handle)))))
 
 (defun editorconfig-core-handle-get-properties (handle file)
-  "Return list of alist of properties for FILE from HANDLE."
+  "Return list of alist of properties for FILE from HANDLE.
+The list returned will be ordered by the lines they appear"
   (mapcar 'cdr
           (cl-remove-if-not (lambda (prop)
                               (editorconfig-fnmatch-p file
@@ -63,6 +66,7 @@ If CONF does not exist return nil."
 (defun editorconfig-core-handle--parse-file (conf)
   "Parse EditorConfig file CONF and return cons of its top properties alist and
 alist of patterns and its properties alist.
+The list returned will be ordered by the lines they appear.
 
 If CONF is not found return nil."
   (when (file-readable-p conf)
@@ -103,14 +107,8 @@ If CONF is not found return nil."
 
            ((string-match-p "=\\|:"
                             line)
-            ;; (or (string-match "^\\([^=]*\\)=\\(.*\\)$"
-            ;;                   line)
-            ;;     (string-match "^\\([^:]*\\):\\(.*\\)$"
-            ;;                   line))
             ;; NOTE: Using match-string does not work as expected
             (let* (
-                   ;; (key (downcase (string-trim (match-string 1 line))))
-                   ;; (value (downcase (string-trim (match-string 2 line))))
                    (idx (string-match "=\\|:"
                                       line))
                    (key (downcase (string-trim (substring line
@@ -131,9 +129,5 @@ If CONF is not found return nil."
                 `(,@all-props (,pattern . ,props))))
         (cons top-props
               all-props)))))
-
-;;(editorconfig-core-handle--parse-file "./tests-ert/fixtures/handle.ini")
-;;(setq debug-on-error t)
-
 
 (provide 'editorconfig-core-handle)
