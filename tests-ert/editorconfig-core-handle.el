@@ -6,7 +6,7 @@
                            "tests-ert/fixtures/"))
          (conf (concat fixtures
                        "handle.ini"))
-         (handle (editorconfig-core-handle-get conf)))
+         (handle (editorconfig-core-handle conf)))
     (should (editorconfig-core-handle-root-p handle))
     (should (equal (editorconfig-core-handle-get-properties handle
                                                             "b.js")
@@ -19,7 +19,7 @@
                            "tests-ert/fixtures/"))
          (conf (concat fixtures
                        "handle.ini"))
-         (handle (editorconfig-core-handle-get conf)))
+         (handle (editorconfig-core-handle conf)))
     (should (editorconfig-core-handle-root-p handle))
     (should (equal (editorconfig-core-handle-get-properties handle
                                                             "b.js")
@@ -33,7 +33,7 @@
                            "tests-ert/fixtures/"))
          (conf (concat fixtures
                        "handle2.ini"))
-         (handle (editorconfig-core-handle-get conf)))
+         (handle (editorconfig-core-handle conf)))
     (should-not (editorconfig-core-handle-root-p handle))
     (should (equal (editorconfig-core-handle-get-properties handle
                                                             "b.js")

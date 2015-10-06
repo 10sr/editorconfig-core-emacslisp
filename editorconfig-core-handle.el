@@ -26,7 +26,7 @@ PATH: Path to config file.")
 
 
 
-(defun editorconfig-core-handle-get (conf)
+(defun editorconfig-core-handle (conf)
   "Return EditorConfig handle for CONF, which should be a file path.
 
 If CONF does not exist return nil."
