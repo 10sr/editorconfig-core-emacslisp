@@ -1,4 +1,5 @@
 #!/bin/sh
+:;#-*-Emacs-Lisp-*-
 :;test -n "$EMACS" || EMACS=emacs
 :;exec "$EMACS" -batch -Q -l "$0" -- "$@"
 
