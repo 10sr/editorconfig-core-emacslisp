@@ -6,7 +6,7 @@
 
 (when (getenv "EDITORCONFIG_CORE_LIBRARY_PATH")
   (setq load-path
-        (appnd (split-string (getenv "EDITORCONFIG_CORE_LIBRARY_PATH")
+        (append (split-string (getenv "EDITORCONFIG_CORE_LIBRARY_PATH")
                              ":")
                load-path)))
 
