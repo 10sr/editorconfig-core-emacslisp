@@ -29,3 +29,17 @@
                                                       '(("d" . "3") ("a" . "3")))
                  '(("a" . "3") ("c" . "1") ("b" . "2") ("d" . "3"))))
   )
+
+
+(ert-deftest editorconfig-core-get-handles ()
+  (let* ((fixtures (concat default-directory
+                          "/tests-ert/fixtures/"))
+         (dir (concat fixtures
+                      "dir1"))
+         (confname "parent.ini")
+         (handles (editorconfig-core-get-handles dir
+                                                 confname)))
+    (should (= 2
+               (length handles)))
+    (should (editorconfig-core-handle-p (car handles)))
+    (should (editorconfig-core-handle-p (cadr handles)))))

@@ -44,12 +44,14 @@ This function is non-destructive."
 
 (defun editorconfig-core-get-handles (dir confname &optional result)
   "Get list of EditorConfig handlers for DIR from CONFNAME."
+  (setq dir (expand-file-name dir))
   (let ((handle (editorconfig-core-handle (concat (file-name-as-directory dir)
                                                    confname)))
         (parent (file-name-directory (directory-file-name dir))))
     (if (or (string= parent
                      dir)
-            (editorconfig-core-handle-root-p handle))
+            (and handle
+                 (editorconfig-core-handle-root-p handle)))
         (cons handle result)
       (editorconfig-core-get-handles parent
                                      confname
