@@ -59,9 +59,10 @@ List returned will be looked like (FILES CONFNAME VERSION HELP-P VERSION-P)."
   (let* ((parsed (editorconfig-bin-parse-args argv))
          (properties (editorconfig-core-get-properties (caar parsed)
                                                        (cadr parsed))))
-    (message "%s=%s"
-             (car properties)
-             (cdr properties))
+    (dolist (p properties)
+      (message "%s=%s"
+               (car p)
+               (cdr p)))
     0))
 
 ;; car of command-line-args-left is "--"

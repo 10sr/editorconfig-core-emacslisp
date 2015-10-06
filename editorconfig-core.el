@@ -64,6 +64,7 @@ Pass arg CONFNAME to use config file other than \".editorconfig\"."
   (setq file (expand-file-name file))
   (setq confname (or confname
                      ".editorconfig"))
-  '("key" . "value"))
+  '(("key1" . "value1")
+    ("key2" . "value2")))
 
 (provide 'editorconfig-core)
