@@ -116,9 +116,10 @@ If CONF is not found return nil."
                 (buffer-substring-no-properties (point-at-bol)
                                                 (point-at-eol)))
           (setq line
-                (string-trim (replace-regexp-in-string "\\(^\\|[^//]\\| \\)\\(#\\|;\\).*$"
-                                                       ""
-                                                       line)))
+                (replace-regexp-in-string "\\(^\\| \\)\\(#\\|;\\).*$"
+                                          ""
+                                          (string-trim line)))
+
           (cond
            ((string-empty-p line)
             nil)
