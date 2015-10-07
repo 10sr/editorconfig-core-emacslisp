@@ -48,19 +48,25 @@ If CONF does not exist return nil."
                    editorconfig-core-handle--cache-hash))))))
 
 (defun editorconfig-core-handle-root-p (handle)
-  "Return non-nil if HANDLE represent root EditorConfig file."
-  (string= "true"
-           (cdr (assoc "root"
-                       (editorconfig-core-handle-top-prop handle)))))
+  "Return non-nil if HANDLE represent root EditorConfig file.
+
+If HANDLE is nil return nil."
+  (when handle
+    (string= "true"
+             (cdr (assoc "root"
+                         (editorconfig-core-handle-top-prop handle))))))
 
 (defun editorconfig-core-handle-get-properties (handle file)
   "Return list of alist of properties for FILE from HANDLE.
-The list returned will be ordered by the lines they appear"
-  (mapcar 'cdr
-          (cl-remove-if-not (lambda (prop)
-                              (editorconfig-core-handle--fnmatch-p file
-                                                                   (car prop)))
-                            (editorconfig-core-handle-prop handle))))
+The list returned will be ordered by the lines they appear.
+
+If HANDLE is nil return nil."
+  (when handle
+    (mapcar 'cdr
+            (cl-remove-if-not (lambda (prop)
+                                (editorconfig-core-handle--fnmatch-p file
+                                                                     (car prop)))
+                              (editorconfig-core-handle-prop handle)))))
 
 (defun editorconfig-core-handle--fnmatch-p (name pattern)
   "Return non-nil if NAME match PATTERN.
