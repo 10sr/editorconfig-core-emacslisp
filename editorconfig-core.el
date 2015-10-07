@@ -1,9 +1,9 @@
+;;; Code:
+
 (require 'editorconfig-fnmatch)
 
 (require 'editorconfig-core-handle)
 
-
-;;; Code:
 
 (defconst editorconfig-core-version
   "0.0.1"
@@ -62,14 +62,34 @@ This function is non-destructive."
                                      (cons handle
                                            result)))))
 
+(defun editorconfig-core--version-prior-than (left right)
+  "Return non-nil if satisfy LEFT < RIGHT as version strings."
+  ;; FIXME: Potentially have many bugs!
+  (let ((left (mapcar 'string-to-number (split-string left "\\.")))
+        (right (mapcar 'string-to-number (split-string right "\\."))))
+    (if (= (car left)
+           (car right))
+        (if (= (nth 1 left)
+               (nth 1 right))
+            (< (nth 2 left)
+               (nth 2 right))
+          (< (nth 1 left)
+             (nth 1 right)))
+      (< (car left)
+         (car right)))))
+;; (editorconfig-core--version-prior-than "0.10.0" "0.9.0")
 ;;;###autoload
-(defun editorconfig-core-get-properties (file &optional confname version)
+(defun editorconfig-core-get-properties (file &optional confname confversion)
   "Get EditorConfig properties for FILE.
 
-Pass arg CONFNAME to use config file other than \".editorconfig\"."
+Pass arg CONFNAME to use config file other than \".editorconfig\".
+If need specific config format version other than the latest one give
+CONFVERSION."
   (setq file (expand-file-name file))
   (setq confname (or confname
                      ".editorconfig"))
+  (setq confversion (or confversion
+                        "0.12.0"))
   (let ((result (apply 'editorconfig-core--merge-properties
                        (mapcar (lambda (arg)
                                  (apply 'editorconfig-core--merge-properties
@@ -87,25 +107,27 @@ Pass arg CONFNAME to use config file other than \".editorconfig\"."
           (setcdr pair
                   (downcase (cdr pair))))))
 
+    ;; Add indent_size property
     (let ((indent-size (assoc "indent_size" result))
           (tab-width (assoc "tab_width" result)))
-      ;; Add indent_size property
       (when (and (not indent-size)
-                 (string= (cdr (assoc "indent_style" result)) "tab"))
-        ;; TODO: Add version condition
+                 (string= (cdr (assoc "indent_style" result)) "tab")
+                 ;; If VERSION < 0.9.0, indent_size should have no default value
+                 (not (editorconfig-core--version-prior-than confversion
+                                                             "0.9.0")))
         (setq result
               `(,@result ("indent_size" . "tab")))))
+    ;; Add tab_width property
     (let ((indent-size (assoc "indent_size" result))
           (tab-width (assoc "tab_width" result)))
-      ;; Add tab_width property
       (when (and indent-size
                  (not tab-width)
                  (not (string= (cdr indent-size) "tab")))
         (setq result
               `(,@result ("tab_width" . ,(cdr indent-size))))))
+    ;; Update indent-size property
     (let ((indent-size (assoc "indent_size" result))
           (tab-width (assoc "tab_width" result)))
-      ;; Update indent-size property
       (when (and indent-size
                  tab-width
                  (string= (cdr indent-size) "tab"))

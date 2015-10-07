@@ -51,7 +51,8 @@ with required output."
 (defun main (argv)
   (let* ((parsed (editorconfig-bin-parse-args argv))
          (properties (editorconfig-core-get-properties (caar parsed)
-                                                       (cadr parsed))))
+                                                       (nth 1 parsed)
+                                                       (nth 2 parsed))))
     (dolist (p properties)
       (message "%s=%s"
                (car p)
