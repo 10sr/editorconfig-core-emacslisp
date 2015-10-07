@@ -80,8 +80,9 @@ This function is a fnmatch with a few modification for EditorConfig usage."
         (editorconfig-fnmatch-p name
                                 (concat dir
                                         pattern)))
-    (editorconfig-fnmatch-p (file-name-nondirectory name)
-                            pattern)))
+    (editorconfig-fnmatch-p name
+                            (concat "**/"
+                                    pattern))))
 
 (defun editorconfig-core-handle--parse-file (conf)
   "Parse EditorConfig file CONF and return cons of its top properties alist and
