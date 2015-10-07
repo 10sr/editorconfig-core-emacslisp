@@ -20,8 +20,8 @@ Latter property alists take precedence. For examle, when called like
 then the result will be
 
 \'(
-  (a . 2) (c . 1) (b . 2)
-  ) ."
+   (a . 2) (c . 1) (b . 2)
+   ) ."
   (if rest
       (apply 'editorconfig-core--merge-properties (editorconfig-core--merge-two-properties current (car rest))
                                                   (cdr rest))
@@ -50,7 +50,7 @@ This function is non-destructive."
   "Get list of EditorConfig handlers for DIR from CONFNAME."
   (setq dir (expand-file-name dir))
   (let ((handle (editorconfig-core-handle (concat (file-name-as-directory dir)
-                                                   confname)))
+                                                  confname)))
         (parent (file-name-directory (directory-file-name dir))))
     (if (or (string= parent
                      dir)
@@ -86,6 +86,31 @@ Pass arg CONFNAME to use config file other than \".editorconfig\"."
         (when pair
           (setcdr pair
                   (downcase (cdr pair))))))
+
+    (let ((indent-size (assoc "indent_size" result))
+          (tab-width (assoc "tab_width" result)))
+      ;; Add indent_size property
+      (when (and (not indent-size)
+                 (string= (cdr (assoc "indent_style" result)) "tab"))
+        ;; TODO: Add version condition
+        (setq result
+              `(,@result ("indent_size" . "tab")))))
+    (let ((indent-size (assoc "indent_size" result))
+          (tab-width (assoc "tab_width" result)))
+      ;; Add tab_width property
+      (when (and indent-size
+                 (not tab-width)
+                 (not (string= (cdr indent-size) "tab")))
+        (setq result
+              `(,@result ("tab_width" . ,(cdr indent-size))))))
+    (let ((indent-size (assoc "indent_size" result))
+          (tab-width (assoc "tab_width" result)))
+      ;; Update indent-size property
+      (when (and indent-size
+                 tab-width
+                 (string= (cdr indent-size) "tab"))
+        (setcdr indent-size (cdr tab-width))))
+
     result))
 
 (provide 'editorconfig-core)
