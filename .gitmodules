@@ -1,3 +1,6 @@
 [submodule "tests"]
 	path = tests
 	url = https://github.com/editorconfig/editorconfig-core-test.git
+[submodule "lib/fnmatch"]
+	path = lib/fnmatch
+	url = git@github.com:10sr/editorconfig-fnmatch-el.git
