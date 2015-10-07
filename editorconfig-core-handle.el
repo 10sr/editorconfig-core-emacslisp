@@ -65,18 +65,20 @@ If HANDLE is nil return nil."
     (mapcar 'cdr
             (cl-remove-if-not (lambda (prop)
                                 (editorconfig-core-handle--fnmatch-p file
-                                                                     (car prop)))
+                                                                     (car prop)
+                                                                     (file-name-directory (editorconfig-core-handle-path handle))))
                               (editorconfig-core-handle-prop handle)))))
 
-(defun editorconfig-core-handle--fnmatch-p (name pattern)
+(defun editorconfig-core-handle--fnmatch-p (name pattern dir)
   "Return non-nil if NAME match PATTERN.
+If pattern has slash, pattern should be relative to DIR.
 
 This function is a fnmatch with a few modification for EditorConfig usage."
   (if (string-match-p "/" pattern)
       (let ((pattern (replace-regexp-in-string "^/"
                                                ""
                                                pattern))
-            (dir (file-name-directory (expand-file-name name))))
+            (dir (file-name-as-directory dir)))
         (editorconfig-fnmatch-p name
                                 (concat dir
                                         pattern)))
