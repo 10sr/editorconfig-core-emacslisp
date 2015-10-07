@@ -94,7 +94,9 @@ The list returned will be ordered by the lines they appear.
 If CONF is not found return nil."
   (when (file-readable-p conf)
     (with-temp-buffer
-      (insert-file-contents-literally conf)
+      ;; NOTE: Use this instead of insert-file-contents-literally to enable
+      ;; code conversion
+      (insert-file-contents conf)
       (goto-char (point-min))
       (let ((point-max (point-max))
             (all-props ())
