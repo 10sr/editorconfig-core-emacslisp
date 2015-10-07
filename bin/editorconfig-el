@@ -14,45 +14,38 @@
 (require 'editorconfig-core)
 
 (defun editorconfig-bin-parse-args
-    (argv &optional files confname version help-p version-p)
+    (argv &optional confname version)
   "Parse arguments and return list.
 
-List returned will be looked like (FILES CONFNAME VERSION HELP-P VERSION-P)."
+List returned will be looked like (FILES CONFNAME VERSION).
+If either -v, --version, -h or --help option apprears, exit emacs immediately
+with required output."
   (cl-case (intern (car argv))
     (-f
      (editorconfig-bin-parse-args (cddr argv)
-                                  files
                                   (cadr argv)
-                                  version
-                                  help-p
-                                  version-p))
+                                  version))
     (-b
      (editorconfig-bin-parse-args (cddr argv)
-                                  files
                                   confname
-                                  (cadr argv)
-                                  help-p
-                                  version-p))
+                                  (cadr argv)))
     ((-h --help)
-     (editorconfig-bin-parse-args (cdr argv)
-                                  files
-                                  confname
-                                  version
-                                  t
-                                  version-p))
+     (message "usage: editorconfig-el ...")
+     (kill-emacs 0))
     ((-v --version)
-     (editorconfig-bin-parse-args (cdr argv)
-                                  files
-                                  confname
-                                  version
-                                  help-p
-                                  t))
+     (message "EditorConfig Version %s"
+              editorconfig-core-version)
+     (kill-emacs 0))
+
     (otherwise
+     (when (and argv
+                (string-match-p "^-"
+                                (car argv)))
+       (error "Invalid option: %s"
+              (car argv)))
      (list argv
            confname
-           version
-           help-p
-           version-p))
+           version))
     ))
 
 (defun main (argv)

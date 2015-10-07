@@ -5,6 +5,10 @@
 
 ;;; Code:
 
+(defconst editorconfig-core-version
+  "0.0.1"
+  "Current EditorConfig core version.")
+
 (defun editorconfig-core--merge-properties (&optional current &rest rest)
   "Merge CURRENT and REST, which are alists of properties.
 
