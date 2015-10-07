@@ -53,8 +53,9 @@ If CONF does not exist return nil."
 If HANDLE is nil return nil."
   (when handle
     (string= "true"
-             (cdr (assoc "root"
-                         (editorconfig-core-handle-top-prop handle))))))
+             (downcase (or (cdr (assoc "root"
+                                       (editorconfig-core-handle-top-prop handle)))
+                           "")))))
 
 (defun editorconfig-core-handle-get-properties (handle file)
   "Return list of alist of properties for FILE from HANDLE.
