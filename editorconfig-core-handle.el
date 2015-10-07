@@ -143,11 +143,14 @@ If CONF is not found return nil."
                    (value (string-trim (substring line
                                                   (1+ idx))))
                    )
-              (if pattern
-                  (setq props
-                        `(,@props (,key . ,value)))
-                (setq top-props
-                      `(,@top-props (,key . ,value))))))
+              (when (and (< (length key) 51)
+                         (< (length value) 256))
+                (if pattern
+                    (when (< (length pattern) 4097)
+                      (setq props
+                            `(,@props (,key . ,value))))
+                  (setq top-props
+                        `(,@top-props (,key . ,value)))))))
            )
           (forward-line 1))
         (when pattern
