@@ -139,8 +139,8 @@ If CONF is not found return nil."
                    (key (downcase (string-trim (substring line
                                                           0
                                                           idx))))
-                   (value (downcase (string-trim (substring line
-                                                            (1+ idx)))))
+                   (value (string-trim (substring line
+                                                  (1+ idx))))
                    )
               (if pattern
                   (setq props

@@ -70,14 +70,22 @@ Pass arg CONFNAME to use config file other than \".editorconfig\"."
   (setq file (expand-file-name file))
   (setq confname (or confname
                      ".editorconfig"))
-  (apply 'editorconfig-core--merge-properties
-         (mapcar (lambda (arg)
-                   (apply 'editorconfig-core--merge-properties
-                          arg))
-                 (mapcar (lambda (handle)
-                           (editorconfig-core-handle-get-properties handle
-                                                                    file))
-                         (editorconfig-core-get-handles (file-name-directory file)
-                                                        confname)))))
+  (let ((result (apply 'editorconfig-core--merge-properties
+                       (mapcar (lambda (arg)
+                                 (apply 'editorconfig-core--merge-properties
+                                        arg))
+                               (mapcar (lambda (handle)
+                                         (editorconfig-core-handle-get-properties handle
+                                                                                  file))
+                                       (editorconfig-core-get-handles (file-name-directory file)
+                                                                      confname))))))
+    (dolist (key '("end_of_line" "indent_style" "indent_size"
+                   "insert_final_newline" "trim_trailing_whitespace" "charset"))
+      (let ((pair (assoc key
+                         result)))
+        (when pair
+          (setcdr pair
+                  (downcase (cdr pair))))))
+    result))
 
 (provide 'editorconfig-core)
