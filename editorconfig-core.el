@@ -79,13 +79,16 @@ This function is non-destructive."
          (car right)))))
 ;; (editorconfig-core--version-prior-than "0.10.0" "0.9.0")
 ;;;###autoload
-(defun editorconfig-core-get-properties (file &optional confname confversion)
+(defun editorconfig-core-get-properties (&optional file confname confversion)
   "Get EditorConfig properties for FILE.
 
+If FILE is not given, use filename of current buffer.
 Pass arg CONFNAME to use config file other than \".editorconfig\".
 If need specific config format version other than the latest one give
 CONFVERSION."
-  (setq file (expand-file-name file))
+  (setq file (expand-file-name (or file
+                                   buffer-file-name
+                                   (error "FILE is not given and `buffer-file-name' is nil"))))
   (setq confname (or confname
                      ".editorconfig"))
   (setq confversion (or confversion
