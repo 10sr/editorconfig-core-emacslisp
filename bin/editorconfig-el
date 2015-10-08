@@ -49,15 +49,28 @@ with required output."
     ))
 
 (defun main (argv)
-  (let* ((parsed (editorconfig-bin-parse-args argv))
-         (properties (editorconfig-core-get-properties (caar parsed)
-                                                       (nth 1 parsed)
-                                                       (nth 2 parsed))))
-    (dolist (p properties)
-      (message "%s=%s"
-               (car p)
-               (cdr p)))
-    0))
+  (let ((parsed (editorconfig-bin-parse-args argv)))
+    (cl-case (length (car parsed))
+      (0
+       nil)
+      (1
+       (dolist (p (editorconfig-core-get-properties (caar parsed)
+                                                    (nth 1 parsed)
+                                                    (nth 2 parsed)))
+         (message "%s=%s"
+                  (car p)
+                  (cdr p))))
+      (otherwise
+       (dolist (file (car parsed))
+         (message "[%s]"
+                  file)
+         (dolist (p (editorconfig-core-get-properties file
+                                                      (nth 1 parsed)
+                                                      (nth 2 parsed)))
+           (message "%s=%s"
+                    (car p)
+                    (cdr p)))))))
+  0)
 
 ;; car of command-line-args-left is "--"
 (kill-emacs (main (cdr command-line-args-left)))
