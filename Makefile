@@ -16,7 +16,7 @@ all:
 
 check: build check-ert tests/CMakeLists.txt $(lib_fnmatch)/editorconfig-fnmatch.el
 	cd ${project_root}/tests && cmake -DEDITORCONFIG_CMD="$(project_root)/bin/editorconfig-el" .
-	cd ${project_root}/tests && EMACS=$(emacs) EDITORCONFIG_CORE_LIBRARY_PATH="$(project_root):$(lib_fnmatch)" ctest -V .
+	cd ${project_root}/tests && EMACS_BIN=$(emacs) EDITORCONFIG_CORE_LIBRARY_PATH="$(project_root):$(lib_fnmatch)" ctest -V .
 
 check-ert: $(tests_ert_el) $(lib_fnmatch)/editorconfig-fnmatch.el build
 	$(emacs) -batch -Q -L $(project_root) -L $(lib_fnmatch) \

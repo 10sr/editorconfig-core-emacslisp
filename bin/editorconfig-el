@@ -1,9 +1,7 @@
 #!/bin/sh
 :;#-*-Emacs-Lisp-*-
-:;test -n "$EMACS" || EMACS=emacs
-:;exec "$EMACS" -batch -Q --eval '(setq debug-on-error t)' -l "$0" -- "$@"
-
-(require 'cl)
+:;test -n "$EMACS_BIN" || EMACS_BIN=emacs
+:;exec "$EMACS_BIN" -batch -Q --eval '(setq debug-on-error t)' -l "$0" -- "$@"
 
 (when (getenv "EDITORCONFIG_CORE_LIBRARY_PATH")
   (setq load-path
@@ -11,7 +9,20 @@
                              ":")
                load-path)))
 
+(require 'cl-lib)
 (require 'editorconfig-core)
+
+(defconst editorconfig-bin-help-message
+  "Usage: editorconfig [-f <configname>] [-b <configversion>] [-h|--help]
+                    [-v|--version] [<filepath> ...]
+
+Options:
+    -f <configname>     Specify config filename other than \".editorconfig\"
+    -b <configversion>  Specify config format version
+    -h|--help           Print this help message
+    -v|--version        Display version information
+    <filepath> ...      File paths to get EditorConfig properties"
+  "Help message of EditorConfig executable.")
 
 (defun editorconfig-bin-parse-args
     (argv &optional confname version)
@@ -20,6 +31,9 @@
 List returned will be looked like (FILES CONFNAME VERSION).
 If either -v, --version, -h or --help option apprears, exit emacs immediately
 with required output."
+  (unless argv
+    (message editorconfig-bin-help-message)
+    (kill-emacs 0))
   (cl-case (intern (car argv))
     (-f
      (editorconfig-bin-parse-args (cddr argv)
@@ -30,7 +44,7 @@ with required output."
                                   confname
                                   (cadr argv)))
     ((-h --help)
-     (message "usage: editorconfig-el ...")
+     (message editorconfig-bin-help-message)
      (kill-emacs 0))
     ((-v --version)
      (message "EditorConfig Version %s"
@@ -49,6 +63,7 @@ with required output."
     ))
 
 (defun main (argv)
+  ;; TODO: Read file list from stdin if - is given as FILENAME
   (let ((parsed (editorconfig-bin-parse-args argv)))
     (cl-case (length (car parsed))
       (0
