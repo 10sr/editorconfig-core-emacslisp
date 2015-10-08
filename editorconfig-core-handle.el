@@ -2,9 +2,6 @@
 
 ;; For cl-defstruct
 (require 'cl-lib)
-;; For string-trim
-(require 'subr-x)
-
 
 (defvar editorconfig-core-handle--cache-hash
   (make-hash-table :test 'equal)
@@ -52,7 +49,7 @@ If CONF does not exist return nil."
 
 If HANDLE is nil return nil."
   (when handle
-    (string= "true"
+    (string-equal "true"
              (downcase (or (cdr (assoc "root"
                                        (editorconfig-core-handle-top-prop handle)))
                            "")))))
@@ -118,10 +115,10 @@ If CONF is not found return nil."
           (setq line
                 (replace-regexp-in-string "\\(^\\| \\)\\(#\\|;\\).*$"
                                           ""
-                                          (string-trim line)))
+                                          (editorconfig-core-handle--string-trim line)))
 
           (cond
-           ((string-empty-p line)
+           ((string-equal "" line)
             nil)
 
            ((string-match "^\\[\\(.*\\)\\]$"
@@ -138,11 +135,11 @@ If CONF is not found return nil."
             (let* (
                    (idx (string-match "=\\|:"
                                       line))
-                   (key (downcase (string-trim (substring line
-                                                          0
-                                                          idx))))
-                   (value (string-trim (substring line
-                                                  (1+ idx))))
+                   (key (downcase (editorconfig-core-handle--string-trim (substring line
+                                                                                    0
+                                                                                    idx))))
+                   (value (editorconfig-core-handle--string-trim (substring line
+                                                                            (1+ idx))))
                    )
               (when (and (< (length key) 51)
                          (< (length value) 256))
@@ -159,5 +156,13 @@ If CONF is not found return nil."
                 `(,@all-props (,pattern . ,props))))
         (cons top-props
               all-props)))))
+
+(defsubst editorconfig-core-handle--string-trim (str)
+  "Remove leading and trailing whitespace from STR."
+  (replace-regexp-in-string "[ \t\n\r]+\\'"
+                            ""
+                            (replace-regexp-in-string "\\`[ \t\n\r]+"
+                                                      ""
+                                                      str)))
 
 (provide 'editorconfig-core-handle)
