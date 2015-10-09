@@ -1,4 +1,4 @@
-;;; editorconfig-core.el --- EditorConfig Core in Emacs Lisp
+;;; editorconfig-core.el --- EditorConfig Core library written purely in Emacs Lisp
 
 ;; Author: 10sr <8slashes+el [at] gmail [dot] com>
 ;; URL: https://github.com/10sr/editorconfig-core-emacslisp
