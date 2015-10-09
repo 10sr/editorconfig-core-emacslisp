@@ -65,7 +65,7 @@
 
 Latter property alists take precedence.  For examle, when called like
 
-(editorconfig-core--merge-properties \'((a . 1) (c . 1))
+'(editorconfig-core--merge-properties \'((a . 1) (c . 1))
                                      \'((a . 2) (b . 2)))
 
 then the result will be
@@ -128,7 +128,7 @@ RESULT is used internally and normally should not be used."
              (nth 1 right)))
       (< (car left)
          (car right)))))
-;; (editorconfig-core--version-prior-than "0.10.0" "0.9.0")
+
 ;;;###autoload
 (defun editorconfig-core-get-properties (&optional file confname confversion)
   "If FILE is not given, use currently visiting file.
@@ -188,6 +188,24 @@ This functions returns alist of properties.  Each element will look like
         (setcdr indent-size (cdr tab-width))))
 
     result))
+
+;;;###autoload
+(defun editorconfig-core-get-properties-hash (&optional file confname confversion)
+  "If FILE is not given, use currently visiting file.
+Give CONFNAME for basename of config file other than .editorconfig.
+If need to specify config format version, give CONFVERSION.
+
+This function is almost same as editorconfig-core-get-properties, but returns
+hash object instead."
+  (let ((result (editorconfig-core-get-properties file
+                                                  confname
+                                                  confversion))
+        (hash (make-hash-table :test 'equal)))
+    (dolist (prop result)
+      (puthash (intern (car prop))
+               (cdr prop)
+               hash))
+    hash))
 
 (provide 'editorconfig-core)
 
