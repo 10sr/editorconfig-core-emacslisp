@@ -47,7 +47,7 @@ with required output."
      (message editorconfig-bin-help-message)
      (kill-emacs 0))
     ((-v --version)
-     (message "EditorConfig Version %s"
+     (message "EditorConfig-Core-EmacsLisp Version %s"
               editorconfig-core-version)
      (kill-emacs 0))
 
