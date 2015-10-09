@@ -1,3 +1,40 @@
+;;; editorconfig-core-handle.el --- Handle Class for EditorConfig File
+
+;; Author: 10sr <8slashes+el [at] gmail [dot] com>
+;; URL: https://github.com/10sr/editorconfig-core-emacslisp
+;; Version: 0.0.1
+;; Keywords: utility editorconfig
+;; Package-Requires: ((editorconfig-fnmatch "20151008.914"))
+
+;; This file is not par of GNU Emacs.
+
+;; Permission is hereby granted, free of charge, to any person obtaining a copy
+;; of this software and associated documentation files (the "Software"), to deal
+;; in the Software without restriction, including without limitation the rights
+;; to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+;; copies of the Software, and to permit persons to whom the Software is
+;; furnished to do so, subject to the following conditions:
+
+;; The above copyright notice and this permission notice shall be included in all
+;; copies or substantial portions of the Software.
+
+;; THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+;; IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+;; FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+;; AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+;; LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+;; OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+;; SOFTWARE.
+
+;;; Commentary:
+
+;; What is this?
+
+;; Handle class for EditorConfig config file. This library is used internally
+;; from editorconfig-core.el .
+
+;;; Code:
+
 (require 'editorconfig-fnmatch)
 
 ;; For cl-defstruct
@@ -55,7 +92,7 @@ If HANDLE is nil return nil."
                            "")))))
 
 (defun editorconfig-core-handle-get-properties (handle file)
-  "Return list of alist of properties for FILE from HANDLE.
+  "Return list of alist of properties from HANDLE for FILE.
 The list returned will be ordered by the lines they appear.
 
 If HANDLE is nil return nil."
@@ -85,7 +122,9 @@ This function is a fnmatch with a few modification for EditorConfig usage."
                                     pattern))))
 
 (defun editorconfig-core-handle--parse-file (conf)
-  "Parse EditorConfig file CONF and return cons of its top properties alist and
+  "Parse EditorConfig file CONF.
+
+This function returns cons of its top properties alist and
 alist of patterns and its properties alist.
 The list returned will be ordered by the lines they appear.
 
@@ -166,3 +205,5 @@ If CONF is not found return nil."
                                                       str)))
 
 (provide 'editorconfig-core-handle)
+
+;;; editorconfig-core-handle.el ends here

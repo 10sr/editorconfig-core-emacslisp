@@ -1,6 +1,57 @@
-;;; Code:
+;;; editorconfig-core.el --- EditorConfig Core in Emacs Lisp
 
-(require 'editorconfig-fnmatch)
+;; Author: 10sr <8slashes+el [at] gmail [dot] com>
+;; URL: https://github.com/10sr/editorconfig-core-emacslisp
+;; Version: 0.0.1
+;; Keywords: utility editorconfig
+
+;; This file is not par of GNU Emacs.
+
+;; Permission is hereby granted, free of charge, to any person obtaining a copy
+;; of this software and associated documentation files (the "Software"), to deal
+;; in the Software without restriction, including without limitation the rights
+;; to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+;; copies of the Software, and to permit persons to whom the Software is
+;; furnished to do so, subject to the following conditions:
+
+;; The above copyright notice and this permission notice shall be included in all
+;; copies or substantial portions of the Software.
+
+;; THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+;; IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+;; FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+;; AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+;; LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+;; OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+;; SOFTWARE.
+
+;;; Commentary:
+
+;; What is this?
+
+;; This library is one implementation of EditorConfig Core, which parses
+;; .editorconfig files and returns properties for given files.
+;; This can be used in place of, for example, editorconfig-core-c.
+
+;; This library is not an editor plugin and does not configure Emacs for editing
+;; the files: this should be done with editorconfig-emacs.
+
+
+;; Usage
+
+;; editorconfig-core-get-properties (&optional file confname confversion)
+
+;; Get EditorConfig properties for FILE.
+
+;; If FILE is not given, use currently visiting file.
+;; Give CONFNAME for basename of config file other than .editorconfig.
+;; If need to specify config format version, give CONFVERSION.
+
+;; This functions returns alist of properties. Each element will look like
+;; (KEY . VALUE) .
+
+
+;;; Code:
 
 (require 'editorconfig-core-handle)
 
@@ -12,16 +63,14 @@
 (defun editorconfig-core--merge-properties (&optional current &rest rest)
   "Merge CURRENT and REST, which are alists of properties.
 
-Latter property alists take precedence. For examle, when called like
+Latter property alists take precedence.  For examle, when called like
 
 (editorconfig-core--merge-properties \'((a . 1) (c . 1))
                                      \'((a . 2) (b . 2)))
 
 then the result will be
 
-\'(
-   (a . 2) (c . 1) (b . 2)
-   ) ."
+'((a . 2) (c . 1) (b . 2)) ."
   (if rest
       (apply 'editorconfig-core--merge-properties (editorconfig-core--merge-two-properties current (car rest))
                                                   (cdr rest))
@@ -47,7 +96,9 @@ This function is non-destructive."
     (copy-alist new)))
 
 (defun editorconfig-core-get-handles (dir confname &optional result)
-  "Get list of EditorConfig handlers for DIR from CONFNAME."
+  "Get list of EditorConfig handlers for DIR from CONFNAME.
+
+RESULT is used internally and normally should not be used."
   (setq dir (expand-file-name dir))
   (let ((handle (editorconfig-core-handle (concat (file-name-as-directory dir)
                                                   confname)))
@@ -80,12 +131,12 @@ This function is non-destructive."
 ;; (editorconfig-core--version-prior-than "0.10.0" "0.9.0")
 ;;;###autoload
 (defun editorconfig-core-get-properties (&optional file confname confversion)
-  "Get EditorConfig properties for FILE.
+  "If FILE is not given, use currently visiting file.
+Give CONFNAME for basename of config file other than .editorconfig.
+If need to specify config format version, give CONFVERSION.
 
-If FILE is not given, use filename of current buffer.
-Pass arg CONFNAME to use config file other than \".editorconfig\".
-If need specific config format version other than the latest one give
-CONFVERSION."
+This functions returns alist of properties.  Each element will look like
+'(KEY . VALUE) ."
   (setq file (expand-file-name (or file
                                    buffer-file-name
                                    (error "FILE is not given and `buffer-file-name' is nil"))))
@@ -139,3 +190,5 @@ CONFVERSION."
     result))
 
 (provide 'editorconfig-core)
+
+;;; editorconfig-core.el ends here
