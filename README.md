@@ -36,6 +36,14 @@ If need to specify config format version, give CONFVERSION.
   This functions returns alist of properties. Each element will look like
 `(KEY . VALUE)`.
 
+* `editorconfig-core-get-properties-hash (&optional file confname confversion)`
+
+  Get EditorConfig properties for FILE.
+
+  This function is almost same as `editorconfig-core-get-properties`, but
+returns hash object instead.
+
+
 
 Run Test
 ---------

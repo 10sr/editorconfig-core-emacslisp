@@ -51,6 +51,13 @@
 ;; (KEY . VALUE) .
 
 
+;; editorconfig-core-get-properties-hash (&optional file confname confversion)
+
+;; Get EditorConfig properties for FILE.
+
+;; This function is almost same as `editorconfig-core-get-properties', but
+;; returns hash object instead.
+
 ;;; Code:
 
 (require 'editorconfig-core-handle)
@@ -131,7 +138,8 @@ RESULT is used internally and normally should not be used."
 
 ;;;###autoload
 (defun editorconfig-core-get-properties (&optional file confname confversion)
-  "If FILE is not given, use currently visiting file.
+  "Get EditorConfig properties for FILE.
+If FILE is not given, use currently visiting file.
 Give CONFNAME for basename of config file other than .editorconfig.
 If need to specify config format version, give CONFVERSION.
 
@@ -191,11 +199,12 @@ This functions returns alist of properties.  Each element will look like
 
 ;;;###autoload
 (defun editorconfig-core-get-properties-hash (&optional file confname confversion)
-  "If FILE is not given, use currently visiting file.
+  "Get EditorConfig properties for FILE.
+If FILE is not given, use currently visiting file.
 Give CONFNAME for basename of config file other than .editorconfig.
 If need to specify config format version, give CONFVERSION.
 
-This function is almost same as editorconfig-core-get-properties, but returns
+This function is almost same as `editorconfig-core-get-properties', but returns
 hash object instead."
   (let ((result (editorconfig-core-get-properties file
                                                   confname
