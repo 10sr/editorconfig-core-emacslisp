@@ -4,6 +4,7 @@
 ;; URL: https://github.com/10sr/editorconfig-core-emacslisp
 ;; Version: 0.0.1
 ;; Keywords: utility editorconfig
+;; Package-Requires: ((editorconfig-fnmatch "20151008.914") (cl-lib "0.5"))
 
 ;; This file is not par of GNU Emacs.
 
