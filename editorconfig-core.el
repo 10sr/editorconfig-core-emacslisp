@@ -6,7 +6,7 @@
 ;; Keywords: utility editorconfig
 ;; Package-Requires: ((editorconfig-fnmatch "20151008.914") (cl-lib "0.5"))
 
-;; This file is not par of GNU Emacs.
+;; This file is not part of GNU Emacs.
 
 ;; Permission is hereby granted, free of charge, to any person obtaining a copy
 ;; of this software and associated documentation files (the "Software"), to deal

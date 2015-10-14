@@ -5,7 +5,7 @@
 ;; Version: 0.0.1
 ;; Keywords: utility editorconfig
 
-;; This file is not par of GNU Emacs.
+;; This file is not part of GNU Emacs.
 
 ;; Permission is hereby granted, free of charge, to any person obtaining a copy
 ;; of this software and associated documentation files (the "Software"), to deal
