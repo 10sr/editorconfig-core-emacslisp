@@ -2,7 +2,7 @@
 
 ;; Author: 10sr <8slashes+el [at] gmail [dot] com>
 ;; URL: https://github.com/10sr/editorconfig-core-emacslisp
-;; Version: 0.0.1
+;; Version: 0.1.0
 ;; Keywords: utility editorconfig
 
 ;; This file is not part of GNU Emacs.
