@@ -41,15 +41,7 @@
 
 (defvar editorconfig-core-handle--cache-hash
   (make-hash-table :test 'equal)
-  "Hash of EditorConfig filename and its handle instance.
-
-Value should be a list like (MTIME TOP-PROP PROP), where
-
-MTIME: The mtime of config file
-TOP-PROP: Alist of (KEY . VALUE) pair of top properties (properties which does
-  not associated with any patterns)
-PROP: Alist of (PATTERN . PROPS), where PROPS is alist of (KEY . VALUE) pair
-PATH: Path to config file.")
+  "Hash of EditorConfig filename and its `editorconfig-core-handle' instance.")
 
 (cl-defstruct editorconfig-core-handle
   (top-prop nil)
