@@ -1,5 +1,6 @@
 [![Build Status](https://travis-ci.org/10sr/editorconfig-core-emacslisp.svg)](https://travis-ci.org/10sr/editorconfig-core-emacslisp)
 [![MELPA](https://melpa.org/packages/editorconfig-core-badge.svg)](https://melpa.org/#/editorconfig-core)
+[![MELPA Stable](https://stable.melpa.org/packages/editorconfig-core-badge.svg)](https://stable.melpa.org/#/editorconfig-core)
 
 
 
