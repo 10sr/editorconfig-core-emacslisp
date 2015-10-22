@@ -2,11 +2,10 @@
 
 ;; Author: 10sr <8slashes+el [at] gmail [dot] com>
 ;; URL: https://github.com/10sr/editorconfig-core-emacslisp
-;; Version: 0.0.1
+;; Version: 0.1.0
 ;; Keywords: utility editorconfig
-;; Package-Requires: ((editorconfig-fnmatch "20151008.914"))
 
-;; This file is not par of GNU Emacs.
+;; This file is not part of GNU Emacs.
 
 ;; Permission is hereby granted, free of charge, to any person obtaining a copy
 ;; of this software and associated documentation files (the "Software"), to deal
@@ -42,15 +41,7 @@
 
 (defvar editorconfig-core-handle--cache-hash
   (make-hash-table :test 'equal)
-  "Hash of EditorConfig filename and its handle instance.
-
-Value should be a list like (MTIME TOP-PROP PROP), where
-
-MTIME: The mtime of config file
-TOP-PROP: Alist of (KEY . VALUE) pair of top properties (properties which does
-  not associated with any patterns)
-PROP: Alist of (PATTERN . PROPS), where PROPS is alist of (KEY . VALUE) pair
-PATH: Path to config file.")
+  "Hash of EditorConfig filename and its `editorconfig-core-handle' instance.")
 
 (cl-defstruct editorconfig-core-handle
   (top-prop nil)
