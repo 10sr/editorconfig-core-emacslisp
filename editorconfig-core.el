@@ -102,6 +102,28 @@ This function is non-destructive."
     ;; If OLD is nil return NEW as it is
     (copy-alist new)))
 
+(defun editorconfig-core--remove-duplicate (alist)
+  "Remove duplicated keys in ALIST.
+
+If same keys are found in ALIST multiple times, the latter one takes precedence.
+For example, when ALIST is
+
+    '((a 1) (b 2) (c 3) (b 4))
+
+then the result will be
+
+    '((a 1) (b 4) (c 3)) ."
+  (let ((result ()))
+    (dolist (e alist)
+      (let ((pair (assoc (car e)
+                         result)))
+        (if pair
+            (setcdr pair
+                    (cdr e))
+          (setq result
+                `(,@result ,e)))))
+    result))
+
 (defun editorconfig-core-get-handles (dir confname &optional result)
   "Get list of EditorConfig handlers for DIR from CONFNAME.
 
