@@ -2,7 +2,7 @@
 
 ;; Author: 10sr <8slashes+el [at] gmail [dot] com>
 ;; URL: https://github.com/10sr/editorconfig-core-emacslisp
-;; Version: 0.1.0
+;; Version: 0.1.1
 ;; Keywords: utility editorconfig
 ;; Package-Requires: ((editorconfig-fnmatch "20151008.914") (cl-lib "0.5"))
 
@@ -63,8 +63,8 @@
 
 
 (defconst editorconfig-core-version
-  "0.0.1"
-  "Current EditorConfig core version.")
+  "0.1.1"
+  "EditorConfig core version.")
 
 (defun editorconfig-core--remove-duplicate (alist)
   "Remove duplicated keys in ALIST.
