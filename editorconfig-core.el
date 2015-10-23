@@ -87,7 +87,7 @@ then the result will be
                 `(,@result ,e)))))
     result))
 
-(defun editorconfig-core-get-handles (dir confname &optional result)
+(defun editorconfig-core--get-handles (dir confname &optional result)
   "Get list of EditorConfig handlers for DIR from CONFNAME.
 
 RESULT is used internally and normally should not be used."
@@ -100,7 +100,7 @@ RESULT is used internally and normally should not be used."
             (and handle
                  (editorconfig-core-handle-root-p handle)))
         (cons handle result)
-      (editorconfig-core-get-handles parent
+      (editorconfig-core--get-handles parent
                                      confname
                                      (cons handle
                                            result)))))
@@ -143,7 +143,7 @@ This functions returns alist of properties.  Each element will look like
                                   (apply 'append
                                          (editorconfig-core-handle-get-properties handle
                                                                                   file)))
-                                (editorconfig-core-get-handles (file-name-directory file)
+                                (editorconfig-core--get-handles (file-name-directory file)
                                                                confname))))))
     (dolist (key '("end_of_line" "indent_style" "indent_size"
                    "insert_final_newline" "trim_trailing_whitespace" "charset"))
