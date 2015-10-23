@@ -11,7 +11,7 @@ editorconfig-core-emacslisp
 Lisp.
 
 
-What is this?
+What is This?
 ---------------
 
 This library is one implementation of EditorConfig Core, which parses
@@ -24,7 +24,7 @@ This library is *not* an editor plugin and does not configure Emacs for editing
 [editorconfig-emacs](https://github.com/editorconfig/editorconfig-emacs).
 
 
-Usage
+Functions
 --------
 
 * `editorconfig-core-get-properties (&optional file confname confversion)`
