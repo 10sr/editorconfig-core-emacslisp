@@ -27,8 +27,6 @@
 
 ;;; Commentary:
 
-;; What is this?
-
 ;; This library is one implementation of EditorConfig Core, which parses
 ;; .editorconfig files and returns properties for given files.
 ;; This can be used in place of, for example, editorconfig-core-c.
@@ -37,7 +35,7 @@
 ;; the files: this should be done with editorconfig-emacs.
 
 
-;; Usage
+;; Functions
 
 ;; editorconfig-core-get-properties (&optional file confname confversion)
 
