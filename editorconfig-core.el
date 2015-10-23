@@ -67,41 +67,6 @@
   "0.0.1"
   "Current EditorConfig core version.")
 
-(defun editorconfig-core--merge-properties (&optional current &rest rest)
-  "Merge CURRENT and REST, which are alists of properties.
-
-Latter property alists take precedence.  For examle, when called like
-
-'(editorconfig-core--merge-properties \'((a . 1) (c . 1))
-                                     \'((a . 2) (b . 2)))
-
-then the result will be
-
-'((a . 2) (c . 1) (b . 2)) ."
-  (if rest
-      (apply 'editorconfig-core--merge-properties (editorconfig-core--merge-two-properties current (car rest))
-                                                  (cdr rest))
-    current))
-
-(defun editorconfig-core--merge-two-properties (old new)
-  "Merge two property alist.
-Properties in OLD will be overwritten by properties in NEW.
-This function is non-destructive."
-  (if old
-      (let ((result (copy-alist old)))
-        (dolist (e new)
-          (let ((pair (assoc (car e)
-                             result)))
-            (if pair
-                (setcdr pair
-                        (cdr e))
-              (setq result
-                    `(,@result ,e)))))
-        result)
-
-    ;; If OLD is nil return NEW as it is
-    (copy-alist new)))
-
 (defun editorconfig-core--remove-duplicate (alist)
   "Remove duplicated keys in ALIST.
 
@@ -174,15 +139,14 @@ This functions returns alist of properties.  Each element will look like
                      ".editorconfig"))
   (setq confversion (or confversion
                         "0.12.0"))
-  (let ((result (apply 'editorconfig-core--merge-properties
-                       (mapcar (lambda (arg)
-                                 (apply 'editorconfig-core--merge-properties
-                                        arg))
-                               (mapcar (lambda (handle)
+  (let ((result (editorconfig-core--remove-duplicate
+                 (apply 'append
+                        (mapcar (lambda (handle)
+                                  (apply 'append
                                          (editorconfig-core-handle-get-properties handle
-                                                                                  file))
-                                       (editorconfig-core-get-handles (file-name-directory file)
-                                                                      confname))))))
+                                                                                  file)))
+                                (editorconfig-core-get-handles (file-name-directory file)
+                                                               confname))))))
     (dolist (key '("end_of_line" "indent_style" "indent_size"
                    "insert_final_newline" "trim_trailing_whitespace" "charset"))
       (let ((pair (assoc key
