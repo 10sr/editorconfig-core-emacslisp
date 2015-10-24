@@ -69,7 +69,7 @@
 (defun editorconfig-core--remove-duplicate (alist)
   "Remove duplicated keys in ALIST.
 
-If same keys are found in ALIST multiple times, the latter one takes precedence.
+If same keys are found in ALIST multiple times, the latter ones take precedence.
 For example, when ALIST is
 
     '((a 1) (b 2) (c 3) (b 4))
