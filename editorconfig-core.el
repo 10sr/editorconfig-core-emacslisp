@@ -2,9 +2,9 @@
 
 ;; Author: 10sr <8slashes+el [at] gmail [dot] com>
 ;; URL: https://github.com/10sr/editorconfig-core-emacslisp
-;; Version: 0.1.1
+;; Version: 0.1.2
 ;; Keywords: utility editorconfig
-;; Package-Requires: ((editorconfig-fnmatch "20151008.914") (cl-lib "0.5"))
+;; Package-Requires: ((editorconfig-fnmatch "20151023.1021") (cl-lib "0.5"))
 
 ;; This file is not part of GNU Emacs.
 
@@ -63,13 +63,13 @@
 
 
 (defconst editorconfig-core-version
-  "0.1.1"
+  "0.1.2"
   "EditorConfig core version.")
 
 (defun editorconfig-core--remove-duplicate (alist)
   "Remove duplicated keys in ALIST.
 
-If same keys are found in ALIST multiple times, the latter one takes precedence.
+If same keys are found in ALIST multiple times, the latter ones take precedence.
 For example, when ALIST is
 
     '((a 1) (b 2) (c 3) (b 4))

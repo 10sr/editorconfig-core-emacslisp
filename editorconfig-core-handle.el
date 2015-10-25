@@ -112,6 +112,14 @@ This function is a fnmatch with a few modification for EditorConfig usage."
                             (concat "**/"
                                     pattern))))
 
+(defsubst editorconfig-core-handle--string-trim (str)
+  "Remove leading and trailing whitespace from STR."
+  (replace-regexp-in-string "[ \t\n\r]+\\'"
+                            ""
+                            (replace-regexp-in-string "\\`[ \t\n\r]+"
+                                                      ""
+                                                      str)))
+
 (defun editorconfig-core-handle--parse-file (conf)
   "Parse EditorConfig file CONF.
 
@@ -186,14 +194,6 @@ If CONF is not found return nil."
                 `(,@all-props (,pattern . ,props))))
         (cons top-props
               all-props)))))
-
-(defsubst editorconfig-core-handle--string-trim (str)
-  "Remove leading and trailing whitespace from STR."
-  (replace-regexp-in-string "[ \t\n\r]+\\'"
-                            ""
-                            (replace-regexp-in-string "\\`[ \t\n\r]+"
-                                                      ""
-                                                      str)))
 
 (provide 'editorconfig-core-handle)
 
