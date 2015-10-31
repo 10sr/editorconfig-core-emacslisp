@@ -22,12 +22,3 @@
                (length handles)))
     (should (editorconfig-core-handle-p (car handles)))
     (should (editorconfig-core-handle-p (cadr handles)))))
-
-(ert-deftest editorconfig-core--version-prior-than ()
-  (should (editorconfig-core--version-prior-than "0.8.0"
-                                                 "0.9.0"))
-  (should-not (editorconfig-core--version-prior-than "0.9.0"
-                                                     "0.9.0"))
-  (should-not (editorconfig-core--version-prior-than "0.12.0"
-                                                     "0.9.0"))
-  )

@@ -2,7 +2,7 @@
 
 ;; Author: 10sr <8slashes+el [at] gmail [dot] com>
 ;; URL: https://github.com/10sr/editorconfig-core-emacslisp
-;; Version: 0.1.3
+;; Version: 0.1.4
 ;; Keywords: utility editorconfig
 ;; Package-Requires: ((editorconfig-fnmatch "20151023.1021") (cl-lib "0.5"))
 
@@ -63,7 +63,7 @@
 
 
 (defconst editorconfig-core-version
-  "0.1.3"
+  "0.1.4"
   "EditorConfig core version.")
 
 (defun editorconfig-core--remove-duplicate (alist)
@@ -106,21 +106,6 @@ RESULT is used internally and normally should not be used."
                                      (cons handle
                                            result)))))
 
-(defun editorconfig-core--version-prior-than (left right)
-  "Return non-nil if satisfy LEFT < RIGHT as version strings."
-  ;; FIXME: Potentially have many bugs!
-  (let ((left (mapcar 'string-to-number (split-string left "\\.")))
-        (right (mapcar 'string-to-number (split-string right "\\."))))
-    (if (= (car left)
-           (car right))
-        (if (= (nth 1 left)
-               (nth 1 right))
-            (< (nth 2 left)
-               (nth 2 right))
-          (< (nth 1 left)
-             (nth 1 right)))
-      (< (car left)
-         (car right)))))
 
 ;;;###autoload
 (defun editorconfig-core-get-properties (&optional file confname confversion)
@@ -160,8 +145,8 @@ This functions returns alist of properties.  Each element will look like
       (when (and (not indent-size)
                  (string= (cdr (assoc "indent_style" result)) "tab")
                  ;; If VERSION < 0.9.0, indent_size should have no default value
-                 (not (editorconfig-core--version-prior-than confversion
-                                                             "0.9.0")))
+                 (version<= "0.9.0"
+                            confversion))
         (setq result
               `(,@result ("indent_size" . "tab")))))
     ;; Add tab_width property
