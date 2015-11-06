@@ -155,9 +155,9 @@ This functions returns alist of properties.  Each element will look like
                   (downcase (cdr pair))))))
 
     ;; Add indent_size property
-    (let ((indent-size (assoc "indent_size" result))
-          (tab-width (assoc "tab_width" result)))
-      (when (and (not indent-size)
+    (let ((p-indent-size (assoc "indent_size" result))
+          (p-tab-width (assoc "tab_width" result)))
+      (when (and (not p-indent-size)
                  (string= (cdr (assoc "indent_style" result)) "tab")
                  ;; If VERSION < 0.9.0, indent_size should have no default value
                  (not (editorconfig-core--version-prior-than confversion
@@ -165,20 +165,20 @@ This functions returns alist of properties.  Each element will look like
         (setq result
               `(,@result ("indent_size" . "tab")))))
     ;; Add tab_width property
-    (let ((indent-size (assoc "indent_size" result))
-          (tab-width (assoc "tab_width" result)))
-      (when (and indent-size
-                 (not tab-width)
-                 (not (string= (cdr indent-size) "tab")))
+    (let ((p-indent-size (assoc "indent_size" result))
+          (p-tab-width (assoc "tab_width" result)))
+      (when (and p-indent-size
+                 (not p-tab-width)
+                 (not (string= (cdr p-indent-size) "tab")))
         (setq result
-              `(,@result ("tab_width" . ,(cdr indent-size))))))
+              `(,@result ("tab_width" . ,(cdr p-indent-size))))))
     ;; Update indent-size property
-    (let ((indent-size (assoc "indent_size" result))
-          (tab-width (assoc "tab_width" result)))
-      (when (and indent-size
-                 tab-width
-                 (string= (cdr indent-size) "tab"))
-        (setcdr indent-size (cdr tab-width))))
+    (let ((p-indent-size (assoc "indent_size" result))
+          (p-tab-width (assoc "tab_width" result)))
+      (when (and p-indent-size
+                 p-tab-width
+                 (string= (cdr p-indent-size) "tab"))
+        (setcdr p-indent-size (cdr p-tab-width))))
 
     result))
 
