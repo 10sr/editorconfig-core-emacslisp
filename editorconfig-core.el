@@ -156,9 +156,9 @@ This functions returns alist of properties.  Each element will look like
 
     ;; Add indent_size property
     (let ((p-indent-size (assoc "indent_size" result))
-          (p-tab-width (assoc "tab_width" result)))
+          (p-indent-style (assoc "indent_style" result)))
       (when (and (not p-indent-size)
-                 (string= (cdr (assoc "indent_style" result)) "tab")
+                 (string= (cdr p-indent-style) "tab")
                  ;; If VERSION < 0.9.0, indent_size should have no default value
                  (not (editorconfig-core--version-prior-than confversion
                                                              "0.9.0")))
