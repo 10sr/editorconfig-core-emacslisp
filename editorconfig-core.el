@@ -2,7 +2,7 @@
 
 ;; Author: 10sr <8slashes+el [at] gmail [dot] com>
 ;; URL: https://github.com/10sr/editorconfig-core-emacslisp
-;; Version: 0.1.4
+;; Version: 0.1.5
 ;; Keywords: utility editorconfig
 ;; Package-Requires: ((editorconfig-fnmatch "20151023.1021") (cl-lib "0.5"))
 
@@ -77,7 +77,7 @@
 
 
 (defconst editorconfig-core-version
-  "0.1.4"
+  "0.1.5"
   "EditorConfig core version.")
 
 (defun editorconfig-core--remove-duplicate (alist)
