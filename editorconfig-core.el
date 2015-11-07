@@ -105,6 +105,9 @@ then the result will be
 (defun editorconfig-core--get-handles (dir confname &optional result)
   "Get list of EditorConfig handlers for DIR from CONFNAME.
 
+In the resulting list, the handle for root config file comes first, and the
+nearest comes last.
+The list may contains nil when no file was found for directories.
 RESULT is used internally and normally should not be used."
   (setq dir (expand-file-name dir))
   (let ((handle (editorconfig-core-handle (concat (file-name-as-directory dir)
@@ -116,9 +119,9 @@ RESULT is used internally and normally should not be used."
                  (editorconfig-core-handle-root-p handle)))
         (cons handle result)
       (editorconfig-core--get-handles parent
-                                     confname
-                                     (cons handle
-                                           result)))))
+                                      confname
+                                      (cons handle
+                                            result)))))
 
 
 ;;;###autoload
@@ -144,7 +147,7 @@ This functions returns alist of properties.  Each element will look like
                                          (editorconfig-core-handle-get-properties handle
                                                                                   file)))
                                 (editorconfig-core--get-handles (file-name-directory file)
-                                                               confname))))))
+                                                                confname))))))
     (dolist (key '("end_of_line" "indent_style" "indent_size"
                    "insert_final_newline" "trim_trailing_whitespace" "charset"))
       (let ((pair (assoc key
