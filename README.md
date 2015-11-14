@@ -94,11 +94,12 @@ returns hash object instead.
 Run Test
 ---------
 
-Issue
+This library uses [editorconfig-core-test](https://github.com/editorconfig/editorconfig-core-test) in addition to
+some small unit tests.
+To run all these test, issue
 
     make check
 
-to conduct all tests (update submodules for tests and run defined tests).
 
 License
 ---------
